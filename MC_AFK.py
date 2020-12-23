@@ -1,15 +1,50 @@
 import time
 import multiprocessing
 import keyboard
+import pyautogui as pg
 import os
 
 ### variables
 
+c = False
+b = 5
 a = False
 kilof = 0
 count = 0
+mined = 0
 
 def mine():
+    global kilof, b
+    a = True
+    b = 5
+
+    for x in range(6):
+        print('Mining in:',b,'s')
+        time.sleep(1)
+        b -= 1
+        os.system('cls')
+        c = True
+    while c == True:
+        pg.mouseDown()
+
+        if keyboard.is_pressed('esc'):
+            pg.mouseUp()
+            c = False
+
+def timer():
+    global count,c, mined
+
+    c = True
+
+    time.sleep(6)
+
+    while c == True:
+        time.sleep(count)
+        mined += 1
+        print(mined)
+        
+
+def mine_set():
     global kilof, a, count
     while a == False:
         try:
@@ -44,18 +79,20 @@ def mine():
                 print('mine')
                 a = True
                 count = 0.25
+
             else:
                 os.system('cls')
         except ValueError:
             print('Wrong value')
-        os.system('cls') 
-        
+        os.system('cls')
+        a = True 
 
+mine_set()
 
-mine()
+p1 = multiprocessing.Process(target=mine)
+p2 = multiprocessing.Process(target=timer)
 
-### running processes
-
-# if __name__ == '__main__':
-#     p1.start()
-#     p2.start()
+if __name__ == '__main__':
+    p1.start()
+    p2.start()
+    print('asd')
